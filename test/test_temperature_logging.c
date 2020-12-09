@@ -6,32 +6,32 @@
 #define FLASH_SIZE 8192
 uint8_t simulated_eeprom[FLASH_SIZE];
 
-static int mock_eeprom_read(uint8_t* dest_buffer, uint8_t* source_address,
-  size_t count, int num_calls)
+static int mock_eeprom_read(uint16_t address, uint8_t *data,
+  uint16_t length, int num_calls)
 {
-    if (source_address >= (uint8_t*)FLASH_SIZE) //8192
+    if (address >= FLASH_SIZE) //8192
     {
         return 1;
     }
     else
     {
-        memcpy(dest_buffer, &simulated_eeprom[(int)source_address], count);
+        memcpy(data, &simulated_eeprom[address], length);
         return 0;
     }
 }
 
 
 
-static int mock_eeprom_write(uint8_t* source_data, uint8_t* target_address,
-  size_t count, int num_calls)
+static int mock_eeprom_write(uint16_t address, const uint8_t* data,
+  uint16_t length, int num_calls)
 {
-    if (target_address >= (uint8_t*)FLASH_SIZE)
+    if (address >= FLASH_SIZE)
     {
-        TEST_FAIL_MESSAGE("invalid flash memory address");
+        return 1;
     }
     else
     {
-        memcpy(&simulated_eeprom[(int)target_address], source_data, count);
+        memcpy(&simulated_eeprom[address], data, length);
         return 0;
     }
   
@@ -55,5 +55,9 @@ void test_temperature_logging_NeedToImplement(void)
     TempLogging_ControlBlock_t emptyBuffer;
     TempLogging_Status_t status = tempLogging_init(&emptyBuffer);
     TEST_ASSERT_EQUAL(TL_OK, status);
+    
+    uint32_t checkMagic = 0;
+    memcpy(&checkMagic , simulated_eeprom, 4);
+    TEST_ASSERT_EQUAL_HEX32(TEMP_LOGGING_MAGIC_NUMBER, checkMagic);
     
 }

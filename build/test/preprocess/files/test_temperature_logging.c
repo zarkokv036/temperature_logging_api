@@ -12,13 +12,13 @@ uint8_t simulated_eeprom[8192];
 
 
 
-static int mock_eeprom_read(uint8_t* dest_buffer, uint8_t* source_address,
+static int mock_eeprom_read(uint16_t address, uint8_t *data,
 
-  size_t count, int num_calls)
+  uint16_t length, int num_calls)
 
 {
 
-    if (source_address >= (uint8_t*)8192)
+    if (address >= 8192)
 
     {
 
@@ -30,7 +30,7 @@ static int mock_eeprom_read(uint8_t* dest_buffer, uint8_t* source_address,
 
     {
 
-        memcpy(dest_buffer, &simulated_eeprom[(int)source_address], count);
+        memcpy(data, &simulated_eeprom[address], length);
 
         return 0;
 
@@ -44,17 +44,17 @@ static int mock_eeprom_read(uint8_t* dest_buffer, uint8_t* source_address,
 
 
 
-static int mock_eeprom_write(uint8_t* source_data, uint8_t* target_address,
+static int mock_eeprom_write(uint16_t address, const uint8_t* data,
 
-  size_t count, int num_calls)
+  uint16_t length, int num_calls)
 
 {
 
-    if (target_address >= (uint8_t*)8192)
+    if (address >= 8192)
 
     {
 
-        UnityFail( (("invalid flash memory address")), (UNITY_UINT)(30));
+        return 1;
 
     }
 
@@ -62,7 +62,7 @@ static int mock_eeprom_write(uint8_t* source_data, uint8_t* target_address,
 
     {
 
-        memcpy(&simulated_eeprom[(int)target_address], source_data, count);
+        memcpy(&simulated_eeprom[address], data, length);
 
         return 0;
 
@@ -113,6 +113,16 @@ void test_temperature_logging_NeedToImplement(void)
    ((void *)0)
 
    ), (UNITY_UINT)(57), UNITY_DISPLAY_STYLE_INT);
+
+    uint32_t checkMagic = 0;
+
+    memcpy(&checkMagic , simulated_eeprom, 4);
+
+    UnityAssertEqualNumber((UNITY_INT)(UNITY_INT32)(((0x10101010))), (UNITY_INT)(UNITY_INT32)((checkMagic)), (
+
+   ((void *)0)
+
+   ), (UNITY_UINT)(60), UNITY_DISPLAY_STYLE_HEX32);
 
 
 

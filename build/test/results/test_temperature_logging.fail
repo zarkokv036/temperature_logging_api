@@ -5,8 +5,8 @@
 :successes: []
 :failures:
 - :test: test_temperature_logging_NeedToImplement
-  :line: 57
-  :message: Expected 0 Was 2
+  :line: 60
+  :message: Expected 0x10101010 Was 0xFFFFFFFF
   :unity_test_time: 0
 :ignores: []
 :counts:
@@ -15,4 +15,4 @@
   :failed: 1
   :ignored: 0
 :stdout: []
-:time: 0.032128900005773176
+:time: 0.033588300000701565
