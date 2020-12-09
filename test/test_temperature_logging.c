@@ -33,8 +33,7 @@ static int mock_eeprom_write(uint16_t address, const uint8_t* data,
     {
         memcpy(&simulated_eeprom[address], data, length);
         return 0;
-    }
-  
+    } 
 }
 
 
@@ -42,7 +41,7 @@ static int mock_eeprom_write(uint16_t address, const uint8_t* data,
 void setUp(void)
 {
     eeprom_read_StubWithCallback(mock_eeprom_read);
-    eeprom_write_StubWithCallback(mock_eeprom_read);
+    eeprom_write_StubWithCallback(mock_eeprom_write);
 }
 
 void tearDown(void)
@@ -57,7 +56,16 @@ void test_temperature_logging_NeedToImplement(void)
     TEST_ASSERT_EQUAL(TL_OK, status);
     
     uint32_t checkMagic = 0;
-    memcpy(&checkMagic , simulated_eeprom, 4);
+    memcpy(&checkMagic, simulated_eeprom, sizeof(checkMagic));
     TEST_ASSERT_EQUAL_HEX32(TEMP_LOGGING_MAGIC_NUMBER, checkMagic);
+    
+    uint16_t readIndex = 54, writeIndex = 47;
+    memcpy(&readIndex, &simulated_eeprom[4], sizeof(readIndex));
+    memcpy(&writeIndex, &simulated_eeprom[6], sizeof(writeIndex));
+    TEST_ASSERT_EQUAL(0, readIndex);
+    TEST_ASSERT_EQUAL(0, writeIndex);
+    
+    
+    
     
 }

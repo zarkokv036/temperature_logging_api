@@ -80,7 +80,7 @@ static void run_test(UnityTestFunction func, const char* name, int line_num)
 int main(void)
 {
   UnityBegin("test_temperature_logging.c");
-  run_test(test_temperature_logging_NeedToImplement, "test_temperature_logging_NeedToImplement", 52);
+  run_test(test_temperature_logging_NeedToImplement, "test_temperature_logging_NeedToImplement", 51);
 
   CMock_Guts_MemFreeFinal();
   return UnityEnd();

@@ -68,8 +68,6 @@ static int mock_eeprom_write(uint16_t address, const uint8_t* data,
 
     }
 
-
-
 }
 
 
@@ -84,7 +82,7 @@ void setUp(void)
 
     eeprom_read_Stub(mock_eeprom_read);
 
-    eeprom_write_Stub(mock_eeprom_read);
+    eeprom_write_Stub(mock_eeprom_write);
 
 }
 
@@ -112,17 +110,45 @@ void test_temperature_logging_NeedToImplement(void)
 
    ((void *)0)
 
-   ), (UNITY_UINT)(57), UNITY_DISPLAY_STYLE_INT);
+   ), (UNITY_UINT)(56), UNITY_DISPLAY_STYLE_INT);
+
+
 
     uint32_t checkMagic = 0;
 
-    memcpy(&checkMagic , simulated_eeprom, 4);
+    memcpy(&checkMagic, simulated_eeprom, sizeof(checkMagic));
 
     UnityAssertEqualNumber((UNITY_INT)(UNITY_INT32)(((0x10101010))), (UNITY_INT)(UNITY_INT32)((checkMagic)), (
 
    ((void *)0)
 
    ), (UNITY_UINT)(60), UNITY_DISPLAY_STYLE_HEX32);
+
+
+
+    uint16_t readIndex = 54, writeIndex = 47;
+
+    memcpy(&readIndex, &simulated_eeprom[4], sizeof(readIndex));
+
+    memcpy(&writeIndex, &simulated_eeprom[6], sizeof(writeIndex));
+
+    UnityAssertEqualNumber((UNITY_INT)((0)), (UNITY_INT)((readIndex)), (
+
+   ((void *)0)
+
+   ), (UNITY_UINT)(65), UNITY_DISPLAY_STYLE_INT);
+
+    UnityAssertEqualNumber((UNITY_INT)((0)), (UNITY_INT)((writeIndex)), (
+
+   ((void *)0)
+
+   ), (UNITY_UINT)(66), UNITY_DISPLAY_STYLE_INT);
+
+
+
+
+
+
 
 
 

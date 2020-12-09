@@ -2,17 +2,17 @@
 :source:
   :path: test
   :file: test_temperature_logging.c
-:successes: []
-:failures:
+:successes:
 - :test: test_temperature_logging_NeedToImplement
-  :line: 60
-  :message: Expected 0x10101010 Was 0xFFFFFFFF
+  :line: 51
+  :message: ''
   :unity_test_time: 0
+:failures: []
 :ignores: []
 :counts:
   :total: 1
-  :passed: 0
-  :failed: 1
+  :passed: 1
+  :failed: 0
   :ignored: 0
 :stdout: []
-:time: 0.033588300000701565
+:time: 0.017912200004502665
