@@ -1,0 +1,5 @@
+---
+- C:/Ruby27-x64/lib/ruby/gems/2.7.0/gems/ceedling-0.30.0/vendor/unity/src/unity.h
+- build/test/mocks/mock_eeprom.h
+- src/temperature_logging.h
+- build/temp/_test_temperature_logging.c
