@@ -4,23 +4,27 @@
   :file: test_temperature_logging.c
 :successes:
 - :test: test_init_when_eeprom_is_empty
-  :line: 53
+  :line: 54
   :message: ''
   :unity_test_time: 0
 - :test: test_of_init_when_eeprom_is_previously_initiated
-  :line: 77
+  :line: 78
   :message: ''
   :unity_test_time: 0
 - :test: test_basic_write_funcionality
-  :line: 102
+  :line: 104
+  :message: ''
+  :unity_test_time: 0
+- :test: test_basic_read_funcionality
+  :line: 133
   :message: ''
   :unity_test_time: 0
 :failures: []
 :ignores: []
 :counts:
-  :total: 3
-  :passed: 3
+  :total: 4
+  :passed: 4
   :failed: 0
   :ignored: 0
 :stdout: []
-:time: 0.021529700010432862
+:time: 0.016976599988993257

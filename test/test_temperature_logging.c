@@ -2,6 +2,7 @@
 #include "mock_eeprom.h"
 #include "temperature_logging.h"
 #include <string.h>
+#include <stdio.h>
 
 #define FLASH_SIZE 8192
 uint8_t simulated_eeprom[FLASH_SIZE];
@@ -88,6 +89,7 @@ void test_of_init_when_eeprom_is_previously_initiated(void)
     //creating of log
     TempLogging_ControlBlock_t emptyBuffer;
     TempLogging_Status_t status = tempLogging_init(&emptyBuffer);
+    TEST_ASSERT_EQUAL(TL_OK, status);
     
     TEST_ASSERT_EQUAL(readIndex, emptyBuffer.readIndex);
     TEST_ASSERT_EQUAL(writeIndex, emptyBuffer.writeIndex);     
@@ -142,17 +144,35 @@ void test_basic_read_funcionality(void)
     //fill the eeprom
     for(uint16_t i = 0; i<7; i++)
     {
-      memset(simulated_eeprom + 8 + (i * 2), i, sizeof(i));  
-    }
+        memcpy(simulated_eeprom + 8 + (i * 2), &i, sizeof(i));  
+    }    
     
     //creating of log
     TempLogging_ControlBlock_t emptyBuffer;
     TempLogging_Status_t status = tempLogging_init(&emptyBuffer);
+    TEST_ASSERT_EQUAL(TL_OK, status);
     //read values from eeprom
-    for(uint16_t i = 0; i<5; i++)
+    for(uint16_t i = 0; i<7; i++)
     {
-        
+        uint16_t readValue = 0;
+        status = tempLogging_read(&emptyBuffer, &readValue);
+        TEST_ASSERT_EQUAL(TL_OK, status);
+        //printf("%d,", readValue);
+        TEST_ASSERT_EQUAL(i, readValue);
     }
+    
+    //test will be 0xFFFF returned when eeprom is empty
+    uint16_t readValue = 0;
+    status = tempLogging_read(&emptyBuffer, &readValue);
+    TEST_ASSERT_EQUAL_HEX16(0xFFFF, readValue);
+    
+    //test if readIndex in eeprom is changed
+    readIndex = 99;
+    memcpy(&readIndex, (simulated_eeprom + 4), sizeof(readIndex));
+    //should be 0 in eeprom
+    TEST_ASSERT_EQUAL(0, readIndex);
+    //should be 7 in ram
+    TEST_ASSERT_EQUAL(7, emptyBuffer.readIndex);
     
 }
 

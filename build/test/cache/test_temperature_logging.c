@@ -8,6 +8,8 @@
 
 
 
+
+
 uint8_t simulated_eeprom[8192];
 
 
@@ -118,7 +120,7 @@ void test_init_when_eeprom_is_empty(void)
 
    ((void *)0)
 
-   ), (UNITY_UINT)(60), UNITY_DISPLAY_STYLE_INT);
+   ), (UNITY_UINT)(61), UNITY_DISPLAY_STYLE_INT);
 
 
 
@@ -130,7 +132,7 @@ void test_init_when_eeprom_is_empty(void)
 
    ((void *)0)
 
-   ), (UNITY_UINT)(64), UNITY_DISPLAY_STYLE_HEX32);
+   ), (UNITY_UINT)(65), UNITY_DISPLAY_STYLE_HEX32);
 
 
 
@@ -144,13 +146,13 @@ void test_init_when_eeprom_is_empty(void)
 
    ((void *)0)
 
-   ), (UNITY_UINT)(69), UNITY_DISPLAY_STYLE_INT);
+   ), (UNITY_UINT)(70), UNITY_DISPLAY_STYLE_INT);
 
     UnityAssertEqualNumber((UNITY_INT)((0)), (UNITY_INT)((writeIndex)), (
 
    ((void *)0)
 
-   ), (UNITY_UINT)(70), UNITY_DISPLAY_STYLE_INT);
+   ), (UNITY_UINT)(71), UNITY_DISPLAY_STYLE_INT);
 
 }
 
@@ -192,19 +194,25 @@ void test_of_init_when_eeprom_is_previously_initiated(void)
 
     TempLogging_Status_t status = tempLogging_init(&emptyBuffer);
 
+    UnityAssertEqualNumber((UNITY_INT)((TL_OK)), (UNITY_INT)((status)), (
+
+   ((void *)0)
+
+   ), (UNITY_UINT)(92), UNITY_DISPLAY_STYLE_INT);
+
 
 
     UnityAssertEqualNumber((UNITY_INT)((readIndex)), (UNITY_INT)((emptyBuffer.readIndex)), (
 
    ((void *)0)
 
-   ), (UNITY_UINT)(92), UNITY_DISPLAY_STYLE_INT);
+   ), (UNITY_UINT)(94), UNITY_DISPLAY_STYLE_INT);
 
     UnityAssertEqualNumber((UNITY_INT)((writeIndex)), (UNITY_INT)((emptyBuffer.writeIndex)), (
 
    ((void *)0)
 
-   ), (UNITY_UINT)(93), UNITY_DISPLAY_STYLE_INT);
+   ), (UNITY_UINT)(95), UNITY_DISPLAY_STYLE_INT);
 
 }
 
@@ -248,7 +256,7 @@ void test_basic_write_funcionality(void)
 
        ((void *)0)
 
-       ), (UNITY_UINT)(113), UNITY_DISPLAY_STYLE_INT);
+       ), (UNITY_UINT)(115), UNITY_DISPLAY_STYLE_INT);
 
 
 
@@ -262,7 +270,7 @@ void test_basic_write_funcionality(void)
 
        ((void *)0)
 
-       ), (UNITY_UINT)(118), UNITY_DISPLAY_STYLE_INT);
+       ), (UNITY_UINT)(120), UNITY_DISPLAY_STYLE_INT);
 
 
 
@@ -274,15 +282,133 @@ void test_basic_write_funcionality(void)
 
        ((void *)0)
 
-       ), (UNITY_UINT)(122), UNITY_DISPLAY_STYLE_INT);
-
-
-
-
-
-
+       ), (UNITY_UINT)(124), UNITY_DISPLAY_STYLE_INT);
 
     }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+void test_basic_read_funcionality(void)
+
+{
+
+
+
+    memset(simulated_eeprom, 0xFF, 8192);
+
+
+
+    uint32_t checkMagic = (0x10101010);
+
+    memcpy(simulated_eeprom, &checkMagic, sizeof(checkMagic));
+
+
+
+    uint16_t readIndex = 0, writeIndex = 7;
+
+    memcpy((simulated_eeprom + 4), &readIndex, sizeof(readIndex));
+
+    memcpy((simulated_eeprom + 6), &writeIndex, sizeof(writeIndex));
+
+
+
+    for(uint16_t i = 0; i<7; i++)
+
+    {
+
+        memcpy(simulated_eeprom + 8 + (i * 2), &i, sizeof(i));
+
+    }
+
+
+
+
+
+    TempLogging_ControlBlock_t emptyBuffer;
+
+    TempLogging_Status_t status = tempLogging_init(&emptyBuffer);
+
+    UnityAssertEqualNumber((UNITY_INT)((TL_OK)), (UNITY_INT)((status)), (
+
+   ((void *)0)
+
+   ), (UNITY_UINT)(153), UNITY_DISPLAY_STYLE_INT);
+
+
+
+    for(uint16_t i = 0; i<7; i++)
+
+    {
+
+        uint16_t readValue = 0;
+
+        status = tempLogging_read(&emptyBuffer, &readValue);
+
+        UnityAssertEqualNumber((UNITY_INT)((TL_OK)), (UNITY_INT)((status)), (
+
+       ((void *)0)
+
+       ), (UNITY_UINT)(159), UNITY_DISPLAY_STYLE_INT);
+
+
+
+        UnityAssertEqualNumber((UNITY_INT)((i)), (UNITY_INT)((readValue)), (
+
+       ((void *)0)
+
+       ), (UNITY_UINT)(161), UNITY_DISPLAY_STYLE_INT);
+
+    }
+
+
+
+
+
+    uint16_t readValue = 0;
+
+    status = tempLogging_read(&emptyBuffer, &readValue);
+
+    UnityAssertEqualNumber((UNITY_INT)(UNITY_INT16)((0xFFFF)), (UNITY_INT)(UNITY_INT16)((readValue)), (
+
+   ((void *)0)
+
+   ), (UNITY_UINT)(167), UNITY_DISPLAY_STYLE_HEX16);
+
+
+
+
+
+    readIndex = 99;
+
+    memcpy(&readIndex, (simulated_eeprom + 4), sizeof(readIndex));
+
+
+
+    UnityAssertEqualNumber((UNITY_INT)((0)), (UNITY_INT)((readIndex)), (
+
+   ((void *)0)
+
+   ), (UNITY_UINT)(173), UNITY_DISPLAY_STYLE_INT);
+
+
+
+    UnityAssertEqualNumber((UNITY_INT)((7)), (UNITY_INT)((emptyBuffer.readIndex)), (
+
+   ((void *)0)
+
+   ), (UNITY_UINT)(175), UNITY_DISPLAY_STYLE_INT);
 
 
 

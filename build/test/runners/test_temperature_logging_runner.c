@@ -15,6 +15,7 @@ extern void tearDown(void);
 extern void test_init_when_eeprom_is_empty(void);
 extern void test_of_init_when_eeprom_is_previously_initiated(void);
 extern void test_basic_write_funcionality(void);
+extern void test_basic_read_funcionality(void);
 
 
 /*=======Mock Management=====*/
@@ -82,9 +83,10 @@ static void run_test(UnityTestFunction func, const char* name, int line_num)
 int main(void)
 {
   UnityBegin("test_temperature_logging.c");
-  run_test(test_init_when_eeprom_is_empty, "test_init_when_eeprom_is_empty", 53);
-  run_test(test_of_init_when_eeprom_is_previously_initiated, "test_of_init_when_eeprom_is_previously_initiated", 77);
-  run_test(test_basic_write_funcionality, "test_basic_write_funcionality", 102);
+  run_test(test_init_when_eeprom_is_empty, "test_init_when_eeprom_is_empty", 54);
+  run_test(test_of_init_when_eeprom_is_previously_initiated, "test_of_init_when_eeprom_is_previously_initiated", 78);
+  run_test(test_basic_write_funcionality, "test_basic_write_funcionality", 104);
+  run_test(test_basic_read_funcionality, "test_basic_read_funcionality", 133);
 
   CMock_Guts_MemFreeFinal();
   return UnityEnd();
