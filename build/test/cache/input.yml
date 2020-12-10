@@ -59,7 +59,16 @@
   :release_preprocess: []
   :placement: :end
   :system: []
-:flags: {}
+:flags:
+  :test:
+    :compile:
+      :*:
+      - "-Wall"
+      - "-Wextra"
+    :link:
+      :*:
+      - "-Wall"
+      - "-Wextra"
 :extension:
   :header: ".h"
   :source: ".c"

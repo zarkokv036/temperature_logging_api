@@ -20,8 +20,6 @@ static int mock_eeprom_read(uint16_t address, uint8_t *data,
     }
 }
 
-
-
 static int mock_eeprom_write(uint16_t address, const uint8_t* data,
   uint16_t length, int num_calls)
 {
@@ -47,25 +45,67 @@ void setUp(void)
 void tearDown(void)
 {
 }
-
-void test_temperature_logging_NeedToImplement(void)
+/*
+*
+*
+*
+************/
+void test_init_when_eeprom_is_empty(void)
 {
-    memset(simulated_eeprom, 0xff, FLASH_SIZE);
+    //clear eeprom
+    memset(simulated_eeprom, 0xFF, FLASH_SIZE);
+    //Test init of log
     TempLogging_ControlBlock_t emptyBuffer;
     TempLogging_Status_t status = tempLogging_init(&emptyBuffer);
     TEST_ASSERT_EQUAL(TL_OK, status);
-    
+    //check magic num
     uint32_t checkMagic = 0;
     memcpy(&checkMagic, simulated_eeprom, sizeof(checkMagic));
     TEST_ASSERT_EQUAL_HEX32(TEMP_LOGGING_MAGIC_NUMBER, checkMagic);
-    
+    //check indexes
     uint16_t readIndex = 54, writeIndex = 47;
     memcpy(&readIndex, &simulated_eeprom[4], sizeof(readIndex));
     memcpy(&writeIndex, &simulated_eeprom[6], sizeof(writeIndex));
     TEST_ASSERT_EQUAL(0, readIndex);
     TEST_ASSERT_EQUAL(0, writeIndex);
+}
+/*
+*
+*
+*
+*/
+void test_of_init_when_eeprom_is_previously_initiated(void)
+{
+    //clear eeprom
+    memset(simulated_eeprom, 0xFF, FLASH_SIZE);
+    //write magic num into eeprom
+    uint32_t checkMagic = TEMP_LOGGING_MAGIC_NUMBER;
+    memcpy(simulated_eeprom, &checkMagic, sizeof(checkMagic));
+    //write indexes into eeprom
+    uint16_t readIndex = 1, writeIndex = 7;
+    memcpy((simulated_eeprom + 4), &readIndex, sizeof(readIndex));
+    memcpy((simulated_eeprom + 6), &writeIndex, sizeof(writeIndex));
+    //creating of log
+    TempLogging_ControlBlock_t emptyBuffer;
+    TempLogging_Status_t status = tempLogging_init(&emptyBuffer);
     
-    
-    
+    TEST_ASSERT_EQUAL(1, emptyBuffer.readIndex);
+    TEST_ASSERT_EQUAL(7, emptyBuffer.writeIndex);   
+}
+
+
+/*
+*
+*
+*
+*/
+void test_test_basic_write_funcionality(void)
+{
     
 }
+
+
+
+
+
+

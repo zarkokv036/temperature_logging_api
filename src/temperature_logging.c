@@ -47,7 +47,6 @@ static TempLogging_Status_t readControlBlock(TempLogging_ControlBlock_t *control
         {
             return TL_EEPROM_RW_ERROR;
         }
-        controlBlock->dirtyFlag = false;
     }
     return TL_OK; 
 }
@@ -60,23 +59,8 @@ static TempLogging_Status_t writeControlBlock(TempLogging_ControlBlock_t *contro
         return TL_BAD_PARAM;
     }
     
-    uint32_t checkMagic = 0;
-    int eStatus = eeprom_read(TEMP_LOGGING_MAGIC_NUMBER_ADDRESS, (uint8_t *)(&checkMagic), sizeof(checkMagic));
-    if (eStatus != TL_OK)
-    {
-        return TL_EEPROM_RW_ERROR;
-    }
-    //write magic number into rom only if it isn't there
-    if (checkMagic != *magicNumber)
-    { 
-        eStatus = eeprom_write(TEMP_LOGGING_MAGIC_NUMBER_ADDRESS, (const uint8_t *)(magicNumber), sizeof(*magicNumber)); /// writing magic num to eeprom 
-        if (eStatus != TL_OK)
-        {
-            return TL_EEPROM_RW_ERROR;
-        }
-    }
     //writing readIndex number into rom
-    eStatus = eeprom_write(TEMP_LOGGING_READ_INDEX_ADDRESS,  (const uint8_t *)(&controlBlock->readIndex), sizeof(controlBlock->readIndex));
+    int eStatus = eeprom_write(TEMP_LOGGING_READ_INDEX_ADDRESS,  (const uint8_t *)(&controlBlock->readIndex), sizeof(controlBlock->readIndex));
     if (eStatus != TL_OK)
     {
         return TL_EEPROM_RW_ERROR;
@@ -87,7 +71,14 @@ static TempLogging_Status_t writeControlBlock(TempLogging_ControlBlock_t *contro
     {
         return TL_EEPROM_RW_ERROR;
     }
-    controlBlock->dirtyFlag = false;
+    
+    //writing magic number
+    eStatus = eeprom_write(TEMP_LOGGING_MAGIC_NUMBER_ADDRESS, (const uint8_t *)(magicNumber), sizeof(*magicNumber)); /// writing magic num to eeprom 
+    if (eStatus != TL_OK)
+    {
+        return TL_EEPROM_RW_ERROR;
+    }
+    
     return TL_OK;
 }
 
@@ -105,6 +96,7 @@ TempLogging_Status_t tempLogging_init(TempLogging_ControlBlock_t *controlBlock)
     {
         return eStatus;
     }
+    controlBlock->dirtyFlag = false;
     // Check if eeprom is initialized 
     if (checkMagic != TEMP_LOGGING_MAGIC_NUMBER)
     {
@@ -114,6 +106,7 @@ TempLogging_Status_t tempLogging_init(TempLogging_ControlBlock_t *controlBlock)
         uint32_t magicNumber = TEMP_LOGGING_MAGIC_NUMBER ;
         return  writeControlBlock(controlBlock, &magicNumber);
     }
+    
     return TL_OK;   
 }
 
@@ -176,7 +169,15 @@ TempLogging_Status_t tempLogging_flush(TempLogging_ControlBlock_t *controlBlock)
     if (controlBlock->dirtyFlag == true)
     {
         uint32_t magicNumber = TEMP_LOGGING_MAGIC_NUMBER ;
-        return writeControlBlock(controlBlock, &magicNumber);
+        TempLogging_Status_t eStatus = writeControlBlock(controlBlock, &magicNumber);
+        if(eStatus != TL_OK)
+        {
+            return eStatus;
+        }
+        else
+        {
+            controlBlock->dirtyFlag = false; 
+        }
     }
     return TL_OK;	
 }

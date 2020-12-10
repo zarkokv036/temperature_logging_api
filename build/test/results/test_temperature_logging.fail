@@ -1,0 +1,26 @@
+---
+:source:
+  :path: test
+  :file: test_temperature_logging.c
+:successes:
+- :test: test_init_when_eeprom_is_empty
+  :line: 53
+  :message: ''
+  :unity_test_time: 0
+- :test: test_of_init_when_eeprom_is_previously_initiated
+  :line: 77
+  :message: ''
+  :unity_test_time: 0
+:failures:
+- :test: test_of_init_when_magicNum_is_wrong
+  :line: 106
+  :message: Expected 1 Was 0
+  :unity_test_time: 0
+:ignores: []
+:counts:
+  :total: 3
+  :passed: 2
+  :failed: 1
+  :ignored: 0
+:stdout: []
+:time: 0.02183139999397099

@@ -1,5 +1,5 @@
 ---
-src/temperature_logging.c:
-- TEST
 build/test/mocks/mock_eeprom.c:
+- TEST
+src/temperature_logging.c:
 - TEST

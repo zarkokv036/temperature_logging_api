@@ -40,10 +40,6 @@ static int mock_eeprom_read(uint16_t address, uint8_t *data,
 
 
 
-
-
-
-
 static int mock_eeprom_write(uint16_t address, const uint8_t* data,
 
   uint16_t length, int num_calls)
@@ -96,11 +92,23 @@ void tearDown(void)
 
 
 
-void test_temperature_logging_NeedToImplement(void)
+
+
+
+
+
+
+
+
+void test_init_when_eeprom_is_empty(void)
 
 {
 
-    memset(simulated_eeprom, 0xff, 8192);
+
+
+    memset(simulated_eeprom, 0xFF, 8192);
+
+
 
     TempLogging_ControlBlock_t emptyBuffer;
 
@@ -110,7 +118,7 @@ void test_temperature_logging_NeedToImplement(void)
 
    ((void *)0)
 
-   ), (UNITY_UINT)(56), UNITY_DISPLAY_STYLE_INT);
+   ), (UNITY_UINT)(60), UNITY_DISPLAY_STYLE_INT);
 
 
 
@@ -122,7 +130,7 @@ void test_temperature_logging_NeedToImplement(void)
 
    ((void *)0)
 
-   ), (UNITY_UINT)(60), UNITY_DISPLAY_STYLE_HEX32);
+   ), (UNITY_UINT)(64), UNITY_DISPLAY_STYLE_HEX32);
 
 
 
@@ -136,17 +144,97 @@ void test_temperature_logging_NeedToImplement(void)
 
    ((void *)0)
 
-   ), (UNITY_UINT)(65), UNITY_DISPLAY_STYLE_INT);
+   ), (UNITY_UINT)(69), UNITY_DISPLAY_STYLE_INT);
 
     UnityAssertEqualNumber((UNITY_INT)((0)), (UNITY_INT)((writeIndex)), (
 
    ((void *)0)
 
-   ), (UNITY_UINT)(66), UNITY_DISPLAY_STYLE_INT);
+   ), (UNITY_UINT)(70), UNITY_DISPLAY_STYLE_INT);
+
+}
 
 
 
 
+
+
+
+
+
+
+
+void test_of_init_when_eeprom_is_previously_initiated(void)
+
+{
+
+
+
+    memset(simulated_eeprom, 0xFF, 8192);
+
+
+
+    uint32_t checkMagic = (0x10101010);
+
+    memcpy(simulated_eeprom, &checkMagic, sizeof(checkMagic));
+
+
+
+    uint16_t readIndex = 1, writeIndex = 7;
+
+    memcpy((simulated_eeprom + 4), &readIndex, sizeof(readIndex));
+
+    memcpy((simulated_eeprom + 6), &writeIndex, sizeof(writeIndex));
+
+
+
+    TempLogging_ControlBlock_t emptyBuffer;
+
+    TempLogging_Status_t status = tempLogging_init(&emptyBuffer);
+
+
+
+    UnityAssertEqualNumber((UNITY_INT)((1)), (UNITY_INT)((emptyBuffer.readIndex)), (
+
+   ((void *)0)
+
+   ), (UNITY_UINT)(92), UNITY_DISPLAY_STYLE_INT);
+
+    UnityAssertEqualNumber((UNITY_INT)((7)), (UNITY_INT)((emptyBuffer.writeIndex)), (
+
+   ((void *)0)
+
+   ), (UNITY_UINT)(93), UNITY_DISPLAY_STYLE_INT);
+
+}
+
+
+
+void test_of_init_when_magicNum_is_wrong(void)
+
+{
+
+
+
+    memset(simulated_eeprom, 0xFF, 8192);
+
+
+
+    uint32_t checkMagic = 0x12345678;
+
+    memcpy(simulated_eeprom, &checkMagic, sizeof(checkMagic));
+
+
+
+    TempLogging_ControlBlock_t emptyBuffer;
+
+    TempLogging_Status_t status = tempLogging_init(&emptyBuffer);
+
+    UnityAssertEqualNumber((UNITY_INT)((1)), (UNITY_INT)((status)), (
+
+   ((void *)0)
+
+   ), (UNITY_UINT)(106), UNITY_DISPLAY_STYLE_INT);
 
 
 

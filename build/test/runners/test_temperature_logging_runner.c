@@ -12,7 +12,9 @@ char* GlobalOrderError;
 /*=======External Functions This Runner Calls=====*/
 extern void setUp(void);
 extern void tearDown(void);
-extern void test_temperature_logging_NeedToImplement(void);
+extern void test_init_when_eeprom_is_empty(void);
+extern void test_of_init_when_eeprom_is_previously_initiated(void);
+extern void test_of_init_when_magicNum_is_wrong(void);
 
 
 /*=======Mock Management=====*/
@@ -80,7 +82,9 @@ static void run_test(UnityTestFunction func, const char* name, int line_num)
 int main(void)
 {
   UnityBegin("test_temperature_logging.c");
-  run_test(test_temperature_logging_NeedToImplement, "test_temperature_logging_NeedToImplement", 51);
+  run_test(test_init_when_eeprom_is_empty, "test_init_when_eeprom_is_empty", 53);
+  run_test(test_of_init_when_eeprom_is_previously_initiated, "test_of_init_when_eeprom_is_previously_initiated", 77);
+  run_test(test_of_init_when_magicNum_is_wrong, "test_of_init_when_magicNum_is_wrong", 96);
 
   CMock_Guts_MemFreeFinal();
   return UnityEnd();
