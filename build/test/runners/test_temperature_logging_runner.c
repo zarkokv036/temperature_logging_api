@@ -14,7 +14,7 @@ extern void setUp(void);
 extern void tearDown(void);
 extern void test_init_when_eeprom_is_empty(void);
 extern void test_of_init_when_eeprom_is_previously_initiated(void);
-extern void test_of_init_when_magicNum_is_wrong(void);
+extern void test_basic_write_funcionality(void);
 
 
 /*=======Mock Management=====*/
@@ -84,7 +84,7 @@ int main(void)
   UnityBegin("test_temperature_logging.c");
   run_test(test_init_when_eeprom_is_empty, "test_init_when_eeprom_is_empty", 53);
   run_test(test_of_init_when_eeprom_is_previously_initiated, "test_of_init_when_eeprom_is_previously_initiated", 77);
-  run_test(test_of_init_when_magicNum_is_wrong, "test_of_init_when_magicNum_is_wrong", 96);
+  run_test(test_basic_write_funcionality, "test_basic_write_funcionality", 102);
 
   CMock_Guts_MemFreeFinal();
   return UnityEnd();

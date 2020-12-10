@@ -194,13 +194,13 @@ void test_of_init_when_eeprom_is_previously_initiated(void)
 
 
 
-    UnityAssertEqualNumber((UNITY_INT)((1)), (UNITY_INT)((emptyBuffer.readIndex)), (
+    UnityAssertEqualNumber((UNITY_INT)((readIndex)), (UNITY_INT)((emptyBuffer.readIndex)), (
 
    ((void *)0)
 
    ), (UNITY_UINT)(92), UNITY_DISPLAY_STYLE_INT);
 
-    UnityAssertEqualNumber((UNITY_INT)((7)), (UNITY_INT)((emptyBuffer.writeIndex)), (
+    UnityAssertEqualNumber((UNITY_INT)((writeIndex)), (UNITY_INT)((emptyBuffer.writeIndex)), (
 
    ((void *)0)
 
@@ -210,7 +210,19 @@ void test_of_init_when_eeprom_is_previously_initiated(void)
 
 
 
-void test_of_init_when_magicNum_is_wrong(void)
+
+
+
+
+
+
+
+
+
+
+
+
+void test_basic_write_funcionality(void)
 
 {
 
@@ -220,23 +232,57 @@ void test_of_init_when_magicNum_is_wrong(void)
 
 
 
-    uint32_t checkMagic = 0x12345678;
-
-    memcpy(simulated_eeprom, &checkMagic, sizeof(checkMagic));
-
-
-
     TempLogging_ControlBlock_t emptyBuffer;
 
     TempLogging_Status_t status = tempLogging_init(&emptyBuffer);
 
-    UnityAssertEqualNumber((UNITY_INT)((1)), (UNITY_INT)((status)), (
-
-   ((void *)0)
-
-   ), (UNITY_UINT)(106), UNITY_DISPLAY_STYLE_INT);
 
 
+    for(uint16_t i = 0; i<5; i++)
+
+    {
+
+        status = tempLogging_write(&emptyBuffer, &i);
+
+        UnityAssertEqualNumber((UNITY_INT)((TL_OK)), (UNITY_INT)((status)), (
+
+       ((void *)0)
+
+       ), (UNITY_UINT)(113), UNITY_DISPLAY_STYLE_INT);
+
+
+
+        uint16_t writtenValue = 0;
+
+        memcpy(&writtenValue, (simulated_eeprom + 8 + (i * 2)), sizeof(writtenValue));
+
+
+
+        UnityAssertEqualNumber((UNITY_INT)((i)), (UNITY_INT)((writtenValue)), (
+
+       ((void *)0)
+
+       ), (UNITY_UINT)(118), UNITY_DISPLAY_STYLE_INT);
+
+
+
+        uint16_t writeIndex = 0;
+
+        memcpy(&writeIndex, (simulated_eeprom + 6), sizeof(writeIndex));
+
+        UnityAssertEqualNumber((UNITY_INT)((emptyBuffer.writeIndex)), (UNITY_INT)((writeIndex)), (
+
+       ((void *)0)
+
+       ), (UNITY_UINT)(122), UNITY_DISPLAY_STYLE_INT);
+
+
+
+
+
+
+
+    }
 
 
 

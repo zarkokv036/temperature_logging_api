@@ -89,8 +89,8 @@ void test_of_init_when_eeprom_is_previously_initiated(void)
     TempLogging_ControlBlock_t emptyBuffer;
     TempLogging_Status_t status = tempLogging_init(&emptyBuffer);
     
-    TEST_ASSERT_EQUAL(1, emptyBuffer.readIndex);
-    TEST_ASSERT_EQUAL(7, emptyBuffer.writeIndex);   
+    TEST_ASSERT_EQUAL(readIndex, emptyBuffer.readIndex);
+    TEST_ASSERT_EQUAL(writeIndex, emptyBuffer.writeIndex);     
 }
 
 
@@ -99,10 +99,63 @@ void test_of_init_when_eeprom_is_previously_initiated(void)
 *
 *
 */
-void test_test_basic_write_funcionality(void)
+void test_basic_write_funcionality(void)
 {
+    //clear eeprom
+    memset(simulated_eeprom, 0xFF, FLASH_SIZE);
+    //creating of log
+    TempLogging_ControlBlock_t emptyBuffer;
+    TempLogging_Status_t status = tempLogging_init(&emptyBuffer);
+    //writing some values into eeprom
+    for(uint16_t i = 0; i<5; i++)
+    {
+        status = tempLogging_write(&emptyBuffer, &i);
+        TEST_ASSERT_EQUAL(TL_OK, status);
+        
+        uint16_t writtenValue = 0;
+        memcpy(&writtenValue, (simulated_eeprom + 8 + (i * 2)), sizeof(writtenValue)); //8 is buffer address in eeprom
+        //check written value
+        TEST_ASSERT_EQUAL(i, writtenValue);
+        //when write() is used value of indexes in eeprom and ram should be the same
+        uint16_t writeIndex = 0;
+        memcpy(&writeIndex, (simulated_eeprom + 6), sizeof(writeIndex)); 
+        TEST_ASSERT_EQUAL(emptyBuffer.writeIndex, writeIndex);    
+    }
+}
+
+/*
+*
+*
+*
+*/
+void test_basic_read_funcionality(void)
+{
+    //clear eeprom
+    memset(simulated_eeprom, 0xFF, FLASH_SIZE);
+    //write magic num into eeprom
+    uint32_t checkMagic = TEMP_LOGGING_MAGIC_NUMBER;
+    memcpy(simulated_eeprom, &checkMagic, sizeof(checkMagic));
+    //write indexes into eeprom
+    uint16_t readIndex = 0, writeIndex = 7;
+    memcpy((simulated_eeprom + 4), &readIndex, sizeof(readIndex));
+    memcpy((simulated_eeprom + 6), &writeIndex, sizeof(writeIndex));
+    //fill the eeprom
+    for(uint16_t i = 0; i<7; i++)
+    {
+      memset(simulated_eeprom + 8 + (i * 2), i, sizeof(i));  
+    }
+    
+    //creating of log
+    TempLogging_ControlBlock_t emptyBuffer;
+    TempLogging_Status_t status = tempLogging_init(&emptyBuffer);
+    //read values from eeprom
+    for(uint16_t i = 0; i<5; i++)
+    {
+        
+    }
     
 }
+
 
 
 
