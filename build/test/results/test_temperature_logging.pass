@@ -16,15 +16,27 @@
   :message: ''
   :unity_test_time: 0
 - :test: test_basic_read_funcionality
-  :line: 133
+  :line: 134
+  :message: ''
+  :unity_test_time: 0
+- :test: test_basic_read_write_when_eeprom_is_almost_empty
+  :line: 186
+  :message: ''
+  :unity_test_time: 0
+- :test: test_read_write_when_eeprom_is_almost_full
+  :line: 252
+  :message: ''
+  :unity_test_time: 0
+- :test: test_flush
+  :line: 308
   :message: ''
   :unity_test_time: 0
 :failures: []
 :ignores: []
 :counts:
-  :total: 4
-  :passed: 4
+  :total: 7
+  :passed: 7
   :failed: 0
   :ignored: 0
 :stdout: []
-:time: 0.016976599988993257
+:time: 0.028983600001083687
