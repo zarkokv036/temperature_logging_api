@@ -414,20 +414,6 @@ void test_read_funcionality(void)
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void test_read_write_when_eeprom_is_almost_empty(void)
 
 {
@@ -450,7 +436,7 @@ void test_read_write_when_eeprom_is_almost_empty(void)
 
    ((void *)0)
 
-   ), (UNITY_UINT)(211), UNITY_DISPLAY_STYLE_INT);
+   ), (UNITY_UINT)(214), UNITY_DISPLAY_STYLE_INT);
 
 
 
@@ -458,7 +444,7 @@ void test_read_write_when_eeprom_is_almost_empty(void)
 
    ((void *)0)
 
-   ), (UNITY_UINT)(213), UNITY_DISPLAY_STYLE_HEX32);
+   ), (UNITY_UINT)(216), UNITY_DISPLAY_STYLE_HEX32);
 
 
 
@@ -474,7 +460,7 @@ void test_read_write_when_eeprom_is_almost_empty(void)
 
        ((void *)0)
 
-       ), (UNITY_UINT)(219), UNITY_DISPLAY_STYLE_HEX32);
+       ), (UNITY_UINT)(222), UNITY_DISPLAY_STYLE_HEX32);
 
     }
 
@@ -494,7 +480,7 @@ void test_read_write_when_eeprom_is_almost_empty(void)
 
        ((void *)0)
 
-       ), (UNITY_UINT)(227), UNITY_DISPLAY_STYLE_INT);
+       ), (UNITY_UINT)(230), UNITY_DISPLAY_STYLE_INT);
 
 
 
@@ -502,7 +488,7 @@ void test_read_write_when_eeprom_is_almost_empty(void)
 
        ((void *)0)
 
-       ), (UNITY_UINT)(229), UNITY_DISPLAY_STYLE_INT);
+       ), (UNITY_UINT)(232), UNITY_DISPLAY_STYLE_INT);
 
 
 
@@ -510,13 +496,13 @@ void test_read_write_when_eeprom_is_almost_empty(void)
 
        ((void *)0)
 
-       ), (UNITY_UINT)(231), UNITY_DISPLAY_STYLE_INT);
+       ), (UNITY_UINT)(234), UNITY_DISPLAY_STYLE_INT);
 
         UnityAssertEqualNumber((UNITY_INT)((2)), (UNITY_INT)((emptyBuffer.writeIndex)), (
 
        ((void *)0)
 
-       ), (UNITY_UINT)(232), UNITY_DISPLAY_STYLE_INT);
+       ), (UNITY_UINT)(235), UNITY_DISPLAY_STYLE_INT);
 
 
 
@@ -528,13 +514,13 @@ void test_read_write_when_eeprom_is_almost_empty(void)
 
        ((void *)0)
 
-       ), (UNITY_UINT)(236), UNITY_DISPLAY_STYLE_INT);
+       ), (UNITY_UINT)(239), UNITY_DISPLAY_STYLE_INT);
 
         UnityAssertEqualNumber((UNITY_INT)((2)), (UNITY_INT)((writeIndex)), (
 
        ((void *)0)
 
-       ), (UNITY_UINT)(237), UNITY_DISPLAY_STYLE_INT);
+       ), (UNITY_UINT)(240), UNITY_DISPLAY_STYLE_INT);
 
     }
 
@@ -548,7 +534,7 @@ void test_read_write_when_eeprom_is_almost_empty(void)
 
    ((void *)0)
 
-   ), (UNITY_UINT)(242), UNITY_DISPLAY_STYLE_INT);
+   ), (UNITY_UINT)(245), UNITY_DISPLAY_STYLE_INT);
 
 
 
@@ -556,7 +542,7 @@ void test_read_write_when_eeprom_is_almost_empty(void)
 
    ((void *)0)
 
-   ), (UNITY_UINT)(244), UNITY_DISPLAY_STYLE_HEX32);
+   ), (UNITY_UINT)(247), UNITY_DISPLAY_STYLE_HEX32);
 
 
 
@@ -574,29 +560,15 @@ void test_read_write_when_eeprom_is_almost_empty(void)
 
    ((void *)0)
 
-   ), (UNITY_UINT)(251), UNITY_DISPLAY_STYLE_INT);
+   ), (UNITY_UINT)(254), UNITY_DISPLAY_STYLE_INT);
 
     UnityAssertEqualNumber((UNITY_INT)((emptyBuffer.writeIndex)), (UNITY_INT)((writeIndex)), (
 
    ((void *)0)
 
-   ), (UNITY_UINT)(252), UNITY_DISPLAY_STYLE_INT);
+   ), (UNITY_UINT)(255), UNITY_DISPLAY_STYLE_INT);
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void test_read_write_when_eeprom_is_almost_full(void)
 
@@ -650,19 +622,13 @@ void test_read_write_when_eeprom_is_almost_full(void)
 
    ((void *)0)
 
-   ), (UNITY_UINT)(285), UNITY_DISPLAY_STYLE_INT);
+   ), (UNITY_UINT)(291), UNITY_DISPLAY_STYLE_INT);
 
     UnityAssertEqualNumber((UNITY_INT)((0)), (UNITY_INT)((emptyBuffer.writeIndex)), (
 
    ((void *)0)
 
-   ), (UNITY_UINT)(286), UNITY_DISPLAY_STYLE_INT);
-
-
-
-    memcpy(&readIndex, (simulated_eeprom + 4), sizeof(readIndex));
-
-    memcpy(&writeIndex, (simulated_eeprom + 6), sizeof(writeIndex));
+   ), (UNITY_UINT)(292), UNITY_DISPLAY_STYLE_INT);
 
 
 
@@ -676,7 +642,7 @@ void test_read_write_when_eeprom_is_almost_full(void)
 
    ((void *)0)
 
-   ), (UNITY_UINT)(294), UNITY_DISPLAY_STYLE_INT);
+   ), (UNITY_UINT)(297), UNITY_DISPLAY_STYLE_INT);
 
 
 
@@ -688,7 +654,7 @@ void test_read_write_when_eeprom_is_almost_full(void)
 
    ((void *)0)
 
-   ), (UNITY_UINT)(298), UNITY_DISPLAY_STYLE_INT);
+   ), (UNITY_UINT)(301), UNITY_DISPLAY_STYLE_INT);
 
 
 
@@ -712,11 +678,11 @@ void test_read_write_when_eeprom_is_almost_full(void)
 
    ((void *)0)
 
-   ), (UNITY_UINT)(308), UNITY_DISPLAY_STYLE_INT);
-
-
+   ), (UNITY_UINT)(311), UNITY_DISPLAY_STYLE_INT);
 
 }
+
+
 
 
 
@@ -782,16 +748,12 @@ void test_flush(void)
 
    ((void *)0)
 
-   ), (UNITY_UINT)(341), UNITY_DISPLAY_STYLE_INT);
+   ), (UNITY_UINT)(344), UNITY_DISPLAY_STYLE_INT);
 
     UnityAssertEqualNumber((UNITY_INT)((emptyBuffer.writeIndex)), (UNITY_INT)((writeIndex)), (
 
    ((void *)0)
 
-   ), (UNITY_UINT)(342), UNITY_DISPLAY_STYLE_INT);
-
-
-
-
+   ), (UNITY_UINT)(345), UNITY_DISPLAY_STYLE_INT);
 
 }

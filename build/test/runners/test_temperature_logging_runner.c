@@ -90,9 +90,9 @@ int main(void)
   run_test(test_of_init_when_eeprom_is_previously_initiated, "test_of_init_when_eeprom_is_previously_initiated", 86);
   run_test(test_write_funcionality, "test_write_funcionality", 114);
   run_test(test_read_funcionality, "test_read_funcionality", 150);
-  run_test(test_read_write_when_eeprom_is_almost_empty, "test_read_write_when_eeprom_is_almost_empty", 202);
-  run_test(test_read_write_when_eeprom_is_almost_full, "test_read_write_when_eeprom_is_almost_full", 261);
-  run_test(test_flush, "test_flush", 317);
+  run_test(test_read_write_when_eeprom_is_almost_empty, "test_read_write_when_eeprom_is_almost_empty", 205);
+  run_test(test_read_write_when_eeprom_is_almost_full, "test_read_write_when_eeprom_is_almost_full", 267);
+  run_test(test_flush, "test_flush", 320);
 
   CMock_Guts_MemFreeFinal();
   return UnityEnd();

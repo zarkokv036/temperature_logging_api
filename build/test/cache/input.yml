@@ -63,11 +63,9 @@
   :test:
     :compile:
       :*:
-      - "-Wall"
       - "-Wextra"
     :link:
       :*:
-      - "-Wall"
       - "-Wextra"
 :extension:
   :header: ".h"
@@ -189,6 +187,78 @@
     - "-D$": DEFINES_TEST_PREPROCESS
     - "-DGNU_COMPILER"
     - '"${1}"'
+  :gcov_compiler:
+    :executable: gcc
+    :arguments:
+    - "-g"
+    - "-fprofile-arcs"
+    - "-ftest-coverage"
+    - -I"$": COLLECTION_PATHS_TEST_SUPPORT_SOURCE_INCLUDE_VENDOR
+    - -I"$": COLLECTION_PATHS_TEST_TOOLCHAIN_INCLUDE
+    - "-D$": COLLECTION_DEFINES_TEST_AND_VENDOR
+    - "-DGCOV_COMPILER"
+    - "-DCODE_COVERAGE"
+    - -c "${1}"
+    - -o "${2}"
+    :name: gcov_compiler
+    :stderr_redirect: :none
+    :background_exec: :none
+    :optional: false
+  :gcov_fixture:
+    :executable: "${1}"
+    :name: gcov_fixture
+    :stderr_redirect: :none
+    :background_exec: :none
+    :optional: false
+  :gcov_gcov_post_report:
+    :executable: gcov
+    :optional: true
+    :arguments:
+    - "${1}"
+    :name: gcov_gcov_post_report
+    :stderr_redirect: :none
+    :background_exec: :none
+  :gcov_gcovr_post_report:
+    :executable: gcovr
+    :optional: true
+    :arguments:
+    - "${1}"
+    :name: gcov_gcovr_post_report
+    :stderr_redirect: :none
+    :background_exec: :none
+  :gcov_linker:
+    :executable: gcc
+    :arguments:
+    - "-fprofile-arcs"
+    - "-ftest-coverage"
+    - "${1}"
+    - "-o ${2}"
+    - "${4}"
+    - "${5}"
+    :name: gcov_linker
+    :stderr_redirect: :none
+    :background_exec: :none
+    :optional: false
+  :gcov_report:
+    :executable: gcov
+    :arguments:
+    - "-n"
+    - "-p"
+    - "-b"
+    - -o "$": GCOV_BUILD_OUTPUT_PATH
+    - '"${1}"'
+    :name: gcov_report
+    :stderr_redirect: :none
+    :background_exec: :none
+    :optional: false
+  :gcov_report_generator_post_report:
+    :executable: reportgenerator
+    :optional: true
+    :arguments:
+    - "${1}"
+    :name: gcov_report_generator_post_report
+    :stderr_redirect: :none
+    :background_exec: :none
 :test_compiler:
   :arguments: []
 :test_linker:
@@ -216,12 +286,18 @@
   :enabled:
   - stdout_pretty_tests_report
   - module_generator
+  - gcov
   :display_raw_test_results: false
   :stdout_pretty_tests_report_path: C:/Ruby27-x64/lib/ruby/gems/2.7.0/gems/ceedling-0.30.0/lib/../plugins/stdout_pretty_tests_report
   :module_generator_path: C:/Ruby27-x64/lib/ruby/gems/2.7.0/gems/ceedling-0.30.0/lib/../plugins/module_generator
+  :gcov_path: C:/Ruby27-x64/lib/ruby/gems/2.7.0/gems/ceedling-0.30.0/lib/../plugins/gcov
 :gcov:
+  :utilities:
+  - gcovr
+  :html_report: true
   :reports:
   - HtmlDetailed
+  - HtmlBasic
   :gcovr:
     :html_medium_threshold: 75
     :html_high_threshold: 90
