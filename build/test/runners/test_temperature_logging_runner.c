@@ -14,9 +14,9 @@ extern void setUp(void);
 extern void tearDown(void);
 extern void test_init_when_eeprom_is_empty(void);
 extern void test_of_init_when_eeprom_is_previously_initiated(void);
-extern void test_basic_write_funcionality(void);
-extern void test_basic_read_funcionality(void);
-extern void test_basic_read_write_when_eeprom_is_almost_empty(void);
+extern void test_write_funcionality(void);
+extern void test_read_funcionality(void);
+extern void test_read_write_when_eeprom_is_almost_empty(void);
 extern void test_read_write_when_eeprom_is_almost_full(void);
 extern void test_flush(void);
 
@@ -86,13 +86,13 @@ static void run_test(UnityTestFunction func, const char* name, int line_num)
 int main(void)
 {
   UnityBegin("test_temperature_logging.c");
-  run_test(test_init_when_eeprom_is_empty, "test_init_when_eeprom_is_empty", 54);
-  run_test(test_of_init_when_eeprom_is_previously_initiated, "test_of_init_when_eeprom_is_previously_initiated", 78);
-  run_test(test_basic_write_funcionality, "test_basic_write_funcionality", 104);
-  run_test(test_basic_read_funcionality, "test_basic_read_funcionality", 134);
-  run_test(test_basic_read_write_when_eeprom_is_almost_empty, "test_basic_read_write_when_eeprom_is_almost_empty", 186);
-  run_test(test_read_write_when_eeprom_is_almost_full, "test_read_write_when_eeprom_is_almost_full", 252);
-  run_test(test_flush, "test_flush", 308);
+  run_test(test_init_when_eeprom_is_empty, "test_init_when_eeprom_is_empty", 61);
+  run_test(test_of_init_when_eeprom_is_previously_initiated, "test_of_init_when_eeprom_is_previously_initiated", 86);
+  run_test(test_write_funcionality, "test_write_funcionality", 114);
+  run_test(test_read_funcionality, "test_read_funcionality", 150);
+  run_test(test_read_write_when_eeprom_is_almost_empty, "test_read_write_when_eeprom_is_almost_empty", 202);
+  run_test(test_read_write_when_eeprom_is_almost_full, "test_read_write_when_eeprom_is_almost_full", 261);
+  run_test(test_flush, "test_flush", 317);
 
   CMock_Guts_MemFreeFinal();
   return UnityEnd();

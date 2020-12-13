@@ -4,31 +4,31 @@
   :file: test_temperature_logging.c
 :successes:
 - :test: test_init_when_eeprom_is_empty
-  :line: 54
+  :line: 61
   :message: ''
   :unity_test_time: 0
 - :test: test_of_init_when_eeprom_is_previously_initiated
-  :line: 78
+  :line: 86
   :message: ''
   :unity_test_time: 0
-- :test: test_basic_write_funcionality
-  :line: 104
+- :test: test_write_funcionality
+  :line: 114
   :message: ''
   :unity_test_time: 0
-- :test: test_basic_read_funcionality
-  :line: 134
+- :test: test_read_funcionality
+  :line: 150
   :message: ''
   :unity_test_time: 0
-- :test: test_basic_read_write_when_eeprom_is_almost_empty
-  :line: 186
+- :test: test_read_write_when_eeprom_is_almost_empty
+  :line: 202
   :message: ''
   :unity_test_time: 0
 - :test: test_read_write_when_eeprom_is_almost_full
-  :line: 252
+  :line: 261
   :message: ''
   :unity_test_time: 0
 - :test: test_flush
-  :line: 308
+  :line: 317
   :message: ''
   :unity_test_time: 0
 :failures: []
@@ -39,4 +39,4 @@
   :failed: 0
   :ignored: 0
 :stdout: []
-:time: 0.028983600001083687
+:time: 0.03922029999375809

@@ -1,3 +1,9 @@
+/*************************************************
+* @file test_temperature_logging.c
+* @author Zarko Milojicic
+*/
+
+
 #include "unity.h"
 #include "mock_eeprom.h"
 #include "temperature_logging.h"
@@ -46,11 +52,12 @@ void setUp(void)
 void tearDown(void)
 {
 }
-/*
+/**************************************
+* @brief Test of log initialization when eeprom is empty 
+  magic number and indexes are not in eeprom
 *
-*
-*
-************/
+* @test 
+*/
 void test_init_when_eeprom_is_empty(void)
 {
     //clear eeprom
@@ -70,10 +77,11 @@ void test_init_when_eeprom_is_empty(void)
     TEST_ASSERT_EQUAL(0, readIndex);
     TEST_ASSERT_EQUAL(0, writeIndex);
 }
-/*
+/*****************************************
+* @brief Test of log initialization when eeprom is initiated,
+  magic number and indexes are in eeprom
 *
-*
-*
+* @test
 */
 void test_of_init_when_eeprom_is_previously_initiated(void)
 {
@@ -96,12 +104,14 @@ void test_of_init_when_eeprom_is_previously_initiated(void)
 }
 
 
-/*
+/***********
+* @brief Test of write function when eeprom is empty and
+* Imedietly writing of indexes from ram to eeprom when write
+* is used.
 *
-*
-*
+* @test
 */
-void test_basic_write_funcionality(void)
+void test_write_funcionality(void)
 {
     //clear eeprom
     memset(simulated_eeprom, 0xFF, FLASH_SIZE);
@@ -119,19 +129,25 @@ void test_basic_write_funcionality(void)
         //check written value
         TEST_ASSERT_EQUAL(i, writtenValue);
         //when write() is used value of indexes in eeprom and ram should be the same
-        uint16_t writeIndex = 0;
-        memcpy(&writeIndex, (simulated_eeprom + 6), sizeof(writeIndex)); 
+        uint16_t writeIndex = 0 , readIndex = 0;
+        memcpy(&writeIndex, (simulated_eeprom + 6), sizeof(writeIndex));
+        memcpy(&readIndex, (simulated_eeprom + 4), sizeof(readIndex));        
         TEST_ASSERT_EQUAL(emptyBuffer.writeIndex, writeIndex);    
+        TEST_ASSERT_EQUAL(emptyBuffer.readIndex, readIndex); 
     }
     
 }
 
-/*
+/*******
+* @brief Test of read function when some values
+  are in eeprom. 
+  Tested if read return 0xFFFF when log is empty.
+  Tested if indexes are not changed in eeprom when
+  read is used.
 *
-*
-*
+* @test
 */
-void test_basic_read_funcionality(void)
+void test_read_funcionality(void)
 {
     //clear eeprom
     memset(simulated_eeprom, 0xFF, FLASH_SIZE);
@@ -178,12 +194,15 @@ void test_basic_read_funcionality(void)
 }
 
 
-/*
+/***************
+* @brief Few values are inserted first with write function into eeprom
+ then these values are read with read function.
+ Return status of read function after that(when empty) and
+ Behavior of indexes are checked.
 *
-*
-*
+* @test
 */
-void test_basic_read_write_when_eeprom_is_almost_empty(void)
+void test_read_write_when_eeprom_is_almost_empty(void)
 {
     memset(simulated_eeprom, 0xFF, FLASH_SIZE);
     //creating of log
@@ -203,15 +222,8 @@ void test_basic_read_write_when_eeprom_is_almost_empty(void)
         TEST_ASSERT_EQUAL_HEX32(TL_OK, status);
     }
     
-    //test if indexes in eeprom are changed
     uint16_t readIndex = 99, writeIndex = 54;
-    memcpy(&readIndex, (simulated_eeprom + 4), sizeof(readIndex));
-    memcpy(&writeIndex, (simulated_eeprom + 6), sizeof(writeIndex));
-    //indexes in ram on rom after write should be same
-    TEST_ASSERT_EQUAL(readIndex, emptyBuffer.readIndex);
-    TEST_ASSERT_EQUAL(writeIndex, emptyBuffer.writeIndex);
-    
-    //now read first value then test indexes then read second 
+    //read first value then test indexes then read second 
     for(uint16_t i = 0; i < 2; i++)
     {
         status = tempLogging_read(&emptyBuffer, &readValue);
@@ -244,10 +256,13 @@ void test_basic_read_write_when_eeprom_is_almost_empty(void)
 }
 
 
-/*
+/*********
+* @brief EEPROM is loaded until one is missing to be full.
+  After log is Initiated one value is iserted and indexes are checked.
+  When buffer is full and one more value is inserted overwriting of oldest
+  value is checked.
 *
-*
-*
+* @test
 */
 void test_read_write_when_eeprom_is_almost_full(void)
 {
@@ -270,14 +285,11 @@ void test_read_write_when_eeprom_is_almost_full(void)
     TempLogging_ControlBlock_t emptyBuffer;
     TempLogging_Status_t status = tempLogging_init(&emptyBuffer);
     
-    //after this write writeIndex should point to 0 
+    //after this write buffer is full and writeIndex should point to 0 
     uint16_t value = 88;
     status = tempLogging_write(&emptyBuffer, &value);
     TEST_ASSERT_EQUAL(TL_OK, status);
     TEST_ASSERT_EQUAL(0, emptyBuffer.writeIndex);
-    
-    memcpy(&readIndex,  (simulated_eeprom + 4), sizeof(readIndex));
-    memcpy(&writeIndex, (simulated_eeprom + 6), sizeof(writeIndex));
     
     //check if the oldest is overwritten
     status = tempLogging_write(&emptyBuffer, &value);
@@ -289,19 +301,19 @@ void test_read_write_when_eeprom_is_almost_full(void)
     TEST_ASSERT_EQUAL(readIndex, writeIndex + 1); // writeIndex+1 because  readIndex is higher by one
     
     //read after this should point to the last place in buffer
-    // readIndex = 2  now
+    //readIndex = 2  now
     uint16_t readValue = 0;
     for(uint16_t i = 0; i < ((FLASH_SIZE - 8) / 2); i++)
     { 
         tempLogging_read(&emptyBuffer, &readValue);
     }
   
-    TEST_ASSERT_EQUAL(emptyBuffer.writeIndex, emptyBuffer.readIndex);
-       
+    TEST_ASSERT_EQUAL(emptyBuffer.writeIndex, emptyBuffer.readIndex);    
 }
 
-/*
-*
+/*****
+* @brief Test of updating eeprom indexes value when
+  flush is called.
 *
 *
 */
@@ -319,7 +331,7 @@ void test_flush(void)
     //creating of log
     TempLogging_ControlBlock_t emptyBuffer;
     TempLogging_Status_t status = tempLogging_init(&emptyBuffer);
-    
+    //3 values are read just to change ram value of indexes
     for(uint16_t i = 0; i < 3; i++)
     {
         uint16_t readValue = 0;        
@@ -330,9 +342,7 @@ void test_flush(void)
     memcpy(&writeIndex, (simulated_eeprom + 6), sizeof(writeIndex));
     // test if indexes in ram and rom are the same
     TEST_ASSERT_EQUAL(emptyBuffer.readIndex, readIndex);
-    TEST_ASSERT_EQUAL(emptyBuffer.writeIndex, writeIndex);
-    
-    
+    TEST_ASSERT_EQUAL(emptyBuffer.writeIndex, writeIndex);  
 }
 
 
