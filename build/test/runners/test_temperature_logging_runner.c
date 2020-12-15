@@ -13,11 +13,11 @@ char* GlobalOrderError;
 extern void setUp(void);
 extern void tearDown(void);
 extern void test_init_when_eeprom_is_empty(void);
-extern void test_of_init_when_eeprom_is_previously_initiated(void);
-extern void test_write_funcionality(void);
-extern void test_read_funcionality(void);
-extern void test_read_write_when_eeprom_is_almost_empty(void);
-extern void test_read_write_when_eeprom_is_almost_full(void);
+extern void test_InitWhenEepromIsPreviouslyInitiated(void);
+extern void test_write(void);
+extern void test_read(void);
+extern void test_readWriteWhenEepromIsAlmostEmpty(void);
+extern void test_readWriteWhenEepromIsAlmostFull(void);
 extern void test_flush(void);
 
 
@@ -86,13 +86,13 @@ static void run_test(UnityTestFunction func, const char* name, int line_num)
 int main(void)
 {
   UnityBegin("test_temperature_logging.c");
-  run_test(test_init_when_eeprom_is_empty, "test_init_when_eeprom_is_empty", 61);
-  run_test(test_of_init_when_eeprom_is_previously_initiated, "test_of_init_when_eeprom_is_previously_initiated", 86);
-  run_test(test_write_funcionality, "test_write_funcionality", 114);
-  run_test(test_read_funcionality, "test_read_funcionality", 150);
-  run_test(test_read_write_when_eeprom_is_almost_empty, "test_read_write_when_eeprom_is_almost_empty", 205);
-  run_test(test_read_write_when_eeprom_is_almost_full, "test_read_write_when_eeprom_is_almost_full", 267);
-  run_test(test_flush, "test_flush", 320);
+  run_test(test_init_when_eeprom_is_empty, "test_init_when_eeprom_is_empty", 89);
+  run_test(test_InitWhenEepromIsPreviouslyInitiated, "test_InitWhenEepromIsPreviouslyInitiated", 108);
+  run_test(test_write, "test_write", 129);
+  run_test(test_read, "test_read", 156);
+  run_test(test_readWriteWhenEepromIsAlmostEmpty, "test_readWriteWhenEepromIsAlmostEmpty", 200);
+  run_test(test_readWriteWhenEepromIsAlmostFull, "test_readWriteWhenEepromIsAlmostFull", 258);
+  run_test(test_flush, "test_flush", 304);
 
   CMock_Guts_MemFreeFinal();
   return UnityEnd();
