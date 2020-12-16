@@ -18,7 +18,7 @@ union SimulatedEeprom {
         uint32_t magic_number;
         uint16_t readIndex;
         uint16_t writeIndex;
-        uint8_t buffer[FLASH_SIZE - 8];
+        uint16_t buffer[(FLASH_SIZE - 8) / 2];
     };
 };
 
@@ -137,7 +137,7 @@ void test_write(void)
         status = tempLogging_write(&emptyBuffer, &i);
         TEST_ASSERT_EQUAL(TL_OK, status);
         //check written value
-        TEST_ASSERT_EQUAL(i, *(simulatedEeprom.buffer + (i * 2)));
+        TEST_ASSERT_EQUAL(i, simulatedEeprom.buffer[i]);
         //when write() is used value of indexes in eeprom and ram should be the same 
         TEST_ASSERT_EQUAL(emptyBuffer.readIndex, simulatedEeprom.readIndex);        
         TEST_ASSERT_EQUAL(emptyBuffer.writeIndex, simulatedEeprom.writeIndex);
@@ -160,7 +160,8 @@ void test_read(void)
     //fill the eeprom
     for(uint16_t i = 0; i < 7; i++)
     {
-         memcpy(simulatedEeprom.buffer + i * 2, &i, sizeof(i));
+        //memcpy(simulatedEeprom.buffer + i * 2, &i, sizeof(i));
+        simulatedEeprom.buffer[i] = i;
     }    
     //creating of log
     TempLogging_ControlBlock_t emptyBuffer;
@@ -258,8 +259,8 @@ void test_readWriteWhenEepromIsAlmostFull(void)
 {
     //fill the eeprom
     for(uint16_t i = 0; i < ((FLASH_SIZE - 8) / 2) - 1; i++) //one is missing to be full
-    {
-        memcpy(simulatedEeprom.buffer + (i * 2), &i, sizeof(i));  
+    {  
+        simulatedEeprom.buffer[i] = i;    
     }
     //write indexes into eeprom
     //writeIndex point to the last place in the buffer
@@ -279,7 +280,7 @@ void test_readWriteWhenEepromIsAlmostFull(void)
     
     //check if the oldest is overwritten
     status = tempLogging_write(&emptyBuffer, &value);
-    TEST_ASSERT_EQUAL(88, *simulatedEeprom.buffer);
+    TEST_ASSERT_EQUAL(88, simulatedEeprom.buffer[0]);
     
     //test if readIndex is incremented
     TEST_ASSERT_EQUAL(simulatedEeprom.readIndex, simulatedEeprom.writeIndex + 1); // writeIndex+1 because  readIndex is higher by one

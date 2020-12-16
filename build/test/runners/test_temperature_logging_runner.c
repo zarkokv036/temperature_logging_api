@@ -12,13 +12,12 @@ char* GlobalOrderError;
 /*=======External Functions This Runner Calls=====*/
 extern void setUp(void);
 extern void tearDown(void);
-extern void test_init_when_eeprom_is_empty(void);
+extern void test_initWhenEepromIsEmpty(void);
 extern void test_InitWhenEepromIsPreviouslyInitiated(void);
 extern void test_write(void);
 extern void test_read(void);
 extern void test_readWriteWhenEepromIsAlmostEmpty(void);
 extern void test_readWriteWhenEepromIsAlmostFull(void);
-extern void test_flush(void);
 
 
 /*=======Mock Management=====*/
@@ -86,13 +85,12 @@ static void run_test(UnityTestFunction func, const char* name, int line_num)
 int main(void)
 {
   UnityBegin("test_temperature_logging.c");
-  run_test(test_init_when_eeprom_is_empty, "test_init_when_eeprom_is_empty", 89);
+  run_test(test_initWhenEepromIsEmpty, "test_initWhenEepromIsEmpty", 89);
   run_test(test_InitWhenEepromIsPreviouslyInitiated, "test_InitWhenEepromIsPreviouslyInitiated", 108);
   run_test(test_write, "test_write", 129);
   run_test(test_read, "test_read", 156);
-  run_test(test_readWriteWhenEepromIsAlmostEmpty, "test_readWriteWhenEepromIsAlmostEmpty", 200);
+  run_test(test_readWriteWhenEepromIsAlmostEmpty, "test_readWriteWhenEepromIsAlmostEmpty", 201);
   run_test(test_readWriteWhenEepromIsAlmostFull, "test_readWriteWhenEepromIsAlmostFull", 258);
-  run_test(test_flush, "test_flush", 304);
 
   CMock_Guts_MemFreeFinal();
   return UnityEnd();
