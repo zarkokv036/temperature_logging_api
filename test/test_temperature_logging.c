@@ -81,12 +81,12 @@ void tearDown(void)
 }
 
 /**
-* @test Test of log initialization when eeprom is empty 
+* @test Test of log initialization when eeprom is empty, 
   magic number and indexes are not in eeprom
 *
 *  
 */
-void test_init_when_eeprom_is_empty(void)
+void test_initWhenEepromIsEmpty(void)
 {
     //Test init of log
     TempLogging_ControlBlock_t emptyBuffer;
@@ -228,7 +228,6 @@ void test_readWriteWhenEepromIsAlmostEmpty(void)
         TEST_ASSERT_EQUAL(i + 1, emptyBuffer.readIndex);
         TEST_ASSERT_EQUAL(2, emptyBuffer.writeIndex);
         //after read indexes are not changed in eeprom
-
         TEST_ASSERT_EQUAL(0, simulatedEeprom.readIndex);
         TEST_ASSERT_EQUAL(2, simulatedEeprom.writeIndex);
     }
@@ -287,6 +286,7 @@ void test_readWriteWhenEepromIsAlmostFull(void)
     
     //readIndex after this should point to the last place in buffer
     //readIndex = 2  now
+    //read all values
     uint16_t readValue = 0;
     for(uint16_t i = 0; i < ((FLASH_SIZE - 8) / 2); i++)
     { 
@@ -313,6 +313,7 @@ void test_flush(void)
         uint16_t readValue = 0;        
         tempLogging_read(&emptyBuffer, &readValue);
     }
+    
     tempLogging_flush(&emptyBuffer);
     // test if indexes in ram and rom are the same
     TEST_ASSERT_EQUAL(emptyBuffer.readIndex, simulatedEeprom.readIndex);
