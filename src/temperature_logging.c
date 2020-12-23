@@ -7,17 +7,32 @@
 #include "eeprom.h" 
 #include <string.h> 
 
+/** @brief Address location of readIndex value. */
 #define TEMP_LOGGING_READ_INDEX_ADDRESS     (TEMP_LOGGING_MAGIC_NUMBER_ADDRESS + 4)
+/** @brief Address location of writeIndex value. */
 #define TEMP_LOGGING_WRITE_INDEX_ADDRESS    (TEMP_LOGGING_READ_INDEX_ADDRESS + 2)
+/** @brief Address location of the first buffer value. */
 #define TEMP_LOGGING_BUFFER_ADDRESS         (TEMP_LOGGING_WRITE_INDEX_ADDRESS + 2)
 
+/** @brief Capacity of the eeprom. */
 #define TEMP_LOGGING_EEPROM_CAPACITY        (8192)
+/** @brief Size of control block. */
 #define TEMP_LOGGING_CONTROL_BLOCK_SIZE     (8)
+/** @brief Size of one buffer value. */
 #define TEMP_LOGGING_BUFFER_ENTRY_SIZE      (2)
+/** @brief Buffer capacity. */
 #define TEMP_LOGGING_BUFFER_CAPACITY \
     ((TEMP_LOGGING_EEPROM_CAPACITY - TEMP_LOGGING_CONTROL_BLOCK_SIZE) / TEMP_LOGGING_BUFFER_ENTRY_SIZE)
 
-
+/**
+* @brief Read control block value from EEPROM and write it to RAM.
+*
+* @param[in] controlBlock Pointer to control block
+* @param[in] magicNumber Pointer to a magic number value.
+* @return TL_OK on success.
+* @return TL_BAD_PARAM if an illegal parameter is provided.
+* @return TL_EEPROM_RW_ERROR if the eeprom driver reports an error.
+*/
 static TempLogging_Status_t readControlBlock(TempLogging_ControlBlock_t *controlBlock, uint32_t *magicNumber)
 {
     if ((controlBlock == NULL) || (magicNumber == NULL) )
@@ -51,7 +66,15 @@ static TempLogging_Status_t readControlBlock(TempLogging_ControlBlock_t *control
     return TL_OK; 
 }
 
-
+/**
+* @brief Write control block value to EEPROM.
+*
+* @param[in] controlBlock Pointer to control block
+* @param[in] magicNumber Pointer to a magic number value.
+* @return TL_OK on success.
+* @return TL_BAD_PARAM if an illegal parameter is provided.
+* @return TL_EEPROM_RW_ERROR if the eeprom driver reports an error.
+*/
 static TempLogging_Status_t writeControlBlock(TempLogging_ControlBlock_t *controlBlock, uint32_t *magicNumber)
 {
     if ((controlBlock == NULL) || (magicNumber == NULL) )

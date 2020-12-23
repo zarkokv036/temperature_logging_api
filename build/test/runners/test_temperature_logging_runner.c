@@ -16,8 +16,9 @@ extern void test_initWhenEepromIsEmpty(void);
 extern void test_InitWhenEepromIsPreviouslyInitiated(void);
 extern void test_write(void);
 extern void test_read(void);
-extern void test_readWriteWhenEepromIsAlmostEmpty(void);
-extern void test_readWriteWhenEepromIsAlmostFull(void);
+extern void test_readAlmostEmptyEeprom();
+extern void test_WriteWhenEepromIsAlmostFull(void);
+extern void test_flush(void);
 
 
 /*=======Mock Management=====*/
@@ -85,12 +86,13 @@ static void run_test(UnityTestFunction func, const char* name, int line_num)
 int main(void)
 {
   UnityBegin("test_temperature_logging.c");
-  run_test(test_initWhenEepromIsEmpty, "test_initWhenEepromIsEmpty", 89);
-  run_test(test_InitWhenEepromIsPreviouslyInitiated, "test_InitWhenEepromIsPreviouslyInitiated", 108);
-  run_test(test_write, "test_write", 129);
-  run_test(test_read, "test_read", 156);
-  run_test(test_readWriteWhenEepromIsAlmostEmpty, "test_readWriteWhenEepromIsAlmostEmpty", 201);
-  run_test(test_readWriteWhenEepromIsAlmostFull, "test_readWriteWhenEepromIsAlmostFull", 258);
+  run_test(test_initWhenEepromIsEmpty, "test_initWhenEepromIsEmpty", 117);
+  run_test(test_InitWhenEepromIsPreviouslyInitiated, "test_InitWhenEepromIsPreviouslyInitiated", 136);
+  run_test(test_write, "test_write", 157);
+  run_test(test_read, "test_read", 184);
+  run_test(test_readAlmostEmptyEeprom, "test_readAlmostEmptyEeprom", 226);
+  run_test(test_WriteWhenEepromIsAlmostFull, "test_WriteWhenEepromIsAlmostFull", 313);
+  run_test(test_flush, "test_flush", 387);
 
   CMock_Guts_MemFreeFinal();
   return UnityEnd();

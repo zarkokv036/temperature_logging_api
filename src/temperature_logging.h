@@ -3,7 +3,7 @@
 * @author Zarko Milojicic
 */
 
-/**************************************
+/**
 * @mainpage Temperature logging
 * 
 * On every new run tempLogging_init() must be used to check if eeprom is initialized or not.
@@ -22,7 +22,9 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#define TEMP_LOGGING_MAGIC_NUMBER_ADDRESS   (0x0000)                //first address location of eeprom
+/** @brief First address location of eeprom. */
+#define TEMP_LOGGING_MAGIC_NUMBER_ADDRESS   (0x0000)
+/** @brief 4 bytes value of magic number */
 #define TEMP_LOGGING_MAGIC_NUMBER           (0x10101010)
 
 typedef struct TempLogging_ControlBlock {
@@ -33,7 +35,7 @@ typedef struct TempLogging_ControlBlock {
     
 } TempLogging_ControlBlock_t;
 
-/************************************************
+/**
 * @brief return status message of some functions
 *
 */
@@ -47,7 +49,7 @@ typedef enum TempLogging_Status {
 
 
 
-/************************************************
+/**
 * @brief initialization of EEPROM memory.
 *
 * This should be called on every new startup of the program.
@@ -63,7 +65,7 @@ typedef enum TempLogging_Status {
 */
 TempLogging_Status_t tempLogging_init(TempLogging_ControlBlock_t *controlBlock);
 
-/************************************************
+/**
 * @brief Insert a new value into the temperature log
 *
 * The new value and updated control block are immediatelly
@@ -81,7 +83,7 @@ TempLogging_Status_t tempLogging_init(TempLogging_ControlBlock_t *controlBlock);
 TempLogging_Status_t tempLogging_write(TempLogging_ControlBlock_t *controlBlock, uint16_t *writeValue);
 
 
-/*************************************************
+/**
 * @brief Read the oldest value from EEPROM memory.
 *
 * After reading, control block in RAM is updated, but in EEPROM NOT.
@@ -95,7 +97,7 @@ TempLogging_Status_t tempLogging_write(TempLogging_ControlBlock_t *controlBlock,
 */
 TempLogging_Status_t tempLogging_read(TempLogging_ControlBlock_t *controlBlock, uint16_t *readValue);
 
-/*************************************************
+/**
 * Function for updating control block in EEPROM.
 * 
 * This function will immediatelly update control block in EEPROM.
