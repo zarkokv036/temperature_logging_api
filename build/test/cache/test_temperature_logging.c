@@ -318,8 +318,6 @@ void test_read(void)
 
     {
 
-
-
         simulatedEeprom.buffer[i] = i;
 
     }
@@ -334,7 +332,7 @@ void test_read(void)
 
    ((void *)0)
 
-   ), (UNITY_UINT)(197), UNITY_DISPLAY_STYLE_INT);
+   ), (UNITY_UINT)(196), UNITY_DISPLAY_STYLE_INT);
 
 
 
@@ -352,29 +350,15 @@ void test_read(void)
 
        ((void *)0)
 
-       ), (UNITY_UINT)(204), UNITY_DISPLAY_STYLE_INT);
+       ), (UNITY_UINT)(203), UNITY_DISPLAY_STYLE_INT);
 
         UnityAssertEqualNumber((UNITY_INT)((i)), (UNITY_INT)((readValue)), (
 
        ((void *)0)
 
-       ), (UNITY_UINT)(205), UNITY_DISPLAY_STYLE_INT);
+       ), (UNITY_UINT)(204), UNITY_DISPLAY_STYLE_INT);
 
     }
-
-
-
-
-
-    uint16_t readValue = 0;
-
-    status = tempLogging_read(&emptyBuffer, &readValue);
-
-    UnityAssertEqualNumber((UNITY_INT)(UNITY_INT16)((0xFFFF)), (UNITY_INT)(UNITY_INT16)((readValue)), (
-
-   ((void *)0)
-
-   ), (UNITY_UINT)(211), UNITY_DISPLAY_STYLE_HEX16);
 
 
 
@@ -386,7 +370,7 @@ void test_read(void)
 
    ((void *)0)
 
-   ), (UNITY_UINT)(215), UNITY_DISPLAY_STYLE_INT);
+   ), (UNITY_UINT)(209), UNITY_DISPLAY_STYLE_INT);
 
 
 
@@ -394,7 +378,7 @@ void test_read(void)
 
    ((void *)0)
 
-   ), (UNITY_UINT)(217), UNITY_DISPLAY_STYLE_INT);
+   ), (UNITY_UINT)(211), UNITY_DISPLAY_STYLE_INT);
 
 }
 
@@ -412,7 +396,7 @@ void test_read(void)
 
 
 
-void test_readAlmostEmptyEeprom()
+void test_readEmptyEeprom(void)
 
 {
 
@@ -434,7 +418,7 @@ void test_readAlmostEmptyEeprom()
 
    ((void *)0)
 
-   ), (UNITY_UINT)(235), UNITY_DISPLAY_STYLE_INT);
+   ), (UNITY_UINT)(229), UNITY_DISPLAY_STYLE_INT);
 
 
 
@@ -442,7 +426,19 @@ void test_readAlmostEmptyEeprom()
 
    ((void *)0)
 
-   ), (UNITY_UINT)(237), UNITY_DISPLAY_STYLE_HEX32);
+   ), (UNITY_UINT)(231), UNITY_DISPLAY_STYLE_HEX32);
+
+}
+
+void test_readAlmostEmptyEeprom(void)
+
+{
+
+
+
+    TempLogging_ControlBlock_t emptyBuffer;
+
+    TempLogging_Status_t status = tempLogging_init(&emptyBuffer);
 
 
 
@@ -456,9 +452,11 @@ void test_readAlmostEmptyEeprom()
 
    ((void *)0)
 
-   ), (UNITY_UINT)(242), UNITY_DISPLAY_STYLE_INT);
+   ), (UNITY_UINT)(250), UNITY_DISPLAY_STYLE_INT);
 
 
+
+    uint16_t readValue = 0;
 
     status = tempLogging_read(&emptyBuffer, &readValue);
 
@@ -466,13 +464,13 @@ void test_readAlmostEmptyEeprom()
 
    ((void *)0)
 
-   ), (UNITY_UINT)(245), UNITY_DISPLAY_STYLE_INT);
+   ), (UNITY_UINT)(254), UNITY_DISPLAY_STYLE_INT);
 
     UnityAssertEqualNumber((UNITY_INT)((1)), (UNITY_INT)((readValue)), (
 
    ((void *)0)
 
-   ), (UNITY_UINT)(246), UNITY_DISPLAY_STYLE_INT);
+   ), (UNITY_UINT)(255), UNITY_DISPLAY_STYLE_INT);
 
 
 
@@ -482,13 +480,13 @@ void test_readAlmostEmptyEeprom()
 
    ((void *)0)
 
-   ), (UNITY_UINT)(249), UNITY_DISPLAY_STYLE_INT);
+   ), (UNITY_UINT)(258), UNITY_DISPLAY_STYLE_INT);
 
     UnityAssertEqualNumber((UNITY_INT)((1)), (UNITY_INT)((emptyBuffer.writeIndex)), (
 
    ((void *)0)
 
-   ), (UNITY_UINT)(250), UNITY_DISPLAY_STYLE_INT);
+   ), (UNITY_UINT)(259), UNITY_DISPLAY_STYLE_INT);
 
 
 
@@ -498,17 +496,31 @@ void test_readAlmostEmptyEeprom()
 
    ((void *)0)
 
-   ), (UNITY_UINT)(253), UNITY_DISPLAY_STYLE_INT);
+   ), (UNITY_UINT)(262), UNITY_DISPLAY_STYLE_INT);
 
     UnityAssertEqualNumber((UNITY_INT)((1)), (UNITY_INT)((simulatedEeprom.writeIndex)), (
 
    ((void *)0)
 
-   ), (UNITY_UINT)(254), UNITY_DISPLAY_STYLE_INT);
+   ), (UNITY_UINT)(263), UNITY_DISPLAY_STYLE_INT);
 
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void test_WriteWhenEepromIsAlmostFull(void)
 
@@ -526,6 +538,8 @@ void test_WriteWhenEepromIsAlmostFull(void)
 
 
 
+
+
     uint16_t writeValue = 1;
 
     status = tempLogging_write(&emptyBuffer, &writeValue);
@@ -534,7 +548,7 @@ void test_WriteWhenEepromIsAlmostFull(void)
 
    ((void *)0)
 
-   ), (UNITY_UINT)(323), UNITY_DISPLAY_STYLE_INT);
+   ), (UNITY_UINT)(284), UNITY_DISPLAY_STYLE_INT);
 
 
 
@@ -542,29 +556,111 @@ void test_WriteWhenEepromIsAlmostFull(void)
 
    ((void *)0)
 
-   ), (UNITY_UINT)(325), UNITY_DISPLAY_STYLE_INT);
+   ), (UNITY_UINT)(286), UNITY_DISPLAY_STYLE_INT);
 
 
 
-    UnityAssertEqualNumber((UNITY_INT)((1)), (UNITY_INT)((simulatedEeprom.readIndex)), (
-
-   ((void *)0)
-
-   ), (UNITY_UINT)(327), UNITY_DISPLAY_STYLE_INT);
-
-    UnityAssertEqualNumber((UNITY_INT)((0)), (UNITY_INT)((simulatedEeprom.writeIndex)), (
+    UnityAssertEqualNumber((UNITY_INT)((1)), (UNITY_INT)((emptyBuffer.readIndex)), (
 
    ((void *)0)
 
-   ), (UNITY_UINT)(328), UNITY_DISPLAY_STYLE_INT);
+   ), (UNITY_UINT)(288), UNITY_DISPLAY_STYLE_INT);
 
+    UnityAssertEqualNumber((UNITY_INT)((0)), (UNITY_INT)((emptyBuffer.writeIndex)), (
 
+   ((void *)0)
 
-
+   ), (UNITY_UINT)(289), UNITY_DISPLAY_STYLE_INT);
 
 }
 
-void test_flush(void)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void test_WriteWhenEepromIsFull(void)
+
+{
+
+
+
+    TempLogging_ControlBlock_t emptyBuffer;
+
+    TempLogging_Status_t status = tempLogging_init(&emptyBuffer);
+
+
+
+
+
+    for(uint16_t i = 0; i < ((8192 - 8) / 2); i++)
+
+    {
+
+        status = tempLogging_write(&emptyBuffer, &i);
+
+    }
+
+    uint16_t writeValue = 1;
+
+    status = tempLogging_write(&emptyBuffer, &writeValue);
+
+    UnityAssertEqualNumber((UNITY_INT)((TL_OK)), (UNITY_INT)((status)), (
+
+   ((void *)0)
+
+   ), (UNITY_UINT)(311), UNITY_DISPLAY_STYLE_INT);
+
+
+
+    UnityAssertEqualNumber((UNITY_INT)((1)), (UNITY_INT)((simulatedEeprom.buffer[0])), (
+
+   ((void *)0)
+
+   ), (UNITY_UINT)(313), UNITY_DISPLAY_STYLE_INT);
+
+
+
+
+
+    UnityAssertEqualNumber((UNITY_INT)((2)), (UNITY_INT)((emptyBuffer.readIndex)), (
+
+   ((void *)0)
+
+   ), (UNITY_UINT)(316), UNITY_DISPLAY_STYLE_INT);
+
+    UnityAssertEqualNumber((UNITY_INT)((1)), (UNITY_INT)((emptyBuffer.writeIndex)), (
+
+   ((void *)0)
+
+   ), (UNITY_UINT)(317), UNITY_DISPLAY_STYLE_INT);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void test_flushAfterRead(void)
 
 {
 
@@ -598,12 +694,168 @@ void test_flush(void)
 
    ((void *)0)
 
-   ), (UNITY_UINT)(402), UNITY_DISPLAY_STYLE_INT);
+   ), (UNITY_UINT)(341), UNITY_DISPLAY_STYLE_INT);
 
     UnityAssertEqualNumber((UNITY_INT)((emptyBuffer.writeIndex)), (UNITY_INT)((simulatedEeprom.writeIndex)), (
 
    ((void *)0)
 
-   ), (UNITY_UINT)(403), UNITY_DISPLAY_STYLE_INT);
+   ), (UNITY_UINT)(342), UNITY_DISPLAY_STYLE_INT);
+
+}
+
+void test_flushFuncionalityInWrite(void)
+
+{
+
+
+
+    TempLogging_ControlBlock_t emptyBuffer;
+
+    TempLogging_Status_t status = tempLogging_init(&emptyBuffer);
+
+
+
+    for(uint16_t i = 0; i < 5; i++)
+
+    {
+
+        status = tempLogging_write(&emptyBuffer, &i);
+
+        UnityAssertEqualNumber((UNITY_INT)((emptyBuffer.readIndex)), (UNITY_INT)((simulatedEeprom.readIndex)), (
+
+       ((void *)0)
+
+       ), (UNITY_UINT)(361), UNITY_DISPLAY_STYLE_INT);
+
+        UnityAssertEqualNumber((UNITY_INT)((emptyBuffer.writeIndex)), (UNITY_INT)((simulatedEeprom.writeIndex)), (
+
+       ((void *)0)
+
+       ), (UNITY_UINT)(362), UNITY_DISPLAY_STYLE_INT);
+
+    }
+
+    uint16_t readValue = 0;
+
+    tempLogging_read(&emptyBuffer, &readValue);
+
+
+
+    UnityAssertEqualNumber((UNITY_INT)((0)), (UNITY_INT)((simulatedEeprom.readIndex)), (
+
+   ((void *)0)
+
+   ), (UNITY_UINT)(367), UNITY_DISPLAY_STYLE_INT);
+
+
+
+
+
+    status = tempLogging_write(&emptyBuffer, &readValue);
+
+    UnityAssertEqualNumber((UNITY_INT)((emptyBuffer.readIndex)), (UNITY_INT)((simulatedEeprom.readIndex)), (
+
+   ((void *)0)
+
+   ), (UNITY_UINT)(371), UNITY_DISPLAY_STYLE_INT);
+
+    UnityAssertEqualNumber((UNITY_INT)((emptyBuffer.writeIndex)), (UNITY_INT)((simulatedEeprom.writeIndex)), (
+
+   ((void *)0)
+
+   ), (UNITY_UINT)(372), UNITY_DISPLAY_STYLE_INT);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+void test_flushAfterWrite(void)
+
+{
+
+
+
+    TempLogging_ControlBlock_t emptyBuffer;
+
+    TempLogging_Status_t status = tempLogging_init(&emptyBuffer);
+
+
+
+    for(uint16_t i = 0; i < 5; i++)
+
+    {
+
+        status = tempLogging_write(&emptyBuffer, &i);
+
+    }
+
+    UnityAssertEqualNumber((UNITY_INT)((0)), (UNITY_INT)((simulatedEeprom.readIndex)), (
+
+   ((void *)0)
+
+   ), (UNITY_UINT)(389), UNITY_DISPLAY_STYLE_INT);
+
+    UnityAssertEqualNumber((UNITY_INT)((5)), (UNITY_INT)((simulatedEeprom.writeIndex)), (
+
+   ((void *)0)
+
+   ), (UNITY_UINT)(390), UNITY_DISPLAY_STYLE_INT);
+
+
+
+
+
+    tempLogging_flush(&emptyBuffer);
+
+    UnityAssertEqualNumber((UNITY_INT)((0)), (UNITY_INT)((simulatedEeprom.readIndex)), (
+
+   ((void *)0)
+
+   ), (UNITY_UINT)(394), UNITY_DISPLAY_STYLE_INT);
+
+    UnityAssertEqualNumber((UNITY_INT)((5)), (UNITY_INT)((simulatedEeprom.writeIndex)), (
+
+   ((void *)0)
+
+   ), (UNITY_UINT)(395), UNITY_DISPLAY_STYLE_INT);
+
+}
+
+
+
+void test_flushAfterInit(void)
+
+{
+
+
+
+    TempLogging_ControlBlock_t emptyBuffer;
+
+    TempLogging_Status_t status = tempLogging_init(&emptyBuffer);
+
+    tempLogging_flush(&emptyBuffer);
+
+    UnityAssertEqualNumber((UNITY_INT)((emptyBuffer.readIndex)), (UNITY_INT)((simulatedEeprom.readIndex)), (
+
+   ((void *)0)
+
+   ), (UNITY_UINT)(404), UNITY_DISPLAY_STYLE_INT);
+
+    UnityAssertEqualNumber((UNITY_INT)((emptyBuffer.writeIndex)), (UNITY_INT)((simulatedEeprom.writeIndex)), (
+
+   ((void *)0)
+
+   ), (UNITY_UINT)(405), UNITY_DISPLAY_STYLE_INT);
+
+
 
 }

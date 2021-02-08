@@ -19,24 +19,44 @@
   :line: 184
   :message: ''
   :unity_test_time: 0
+- :test: test_readEmptyEeprom
+  :line: 220
+  :message: ''
+  :unity_test_time: 0
 - :test: test_readAlmostEmptyEeprom
-  :line: 226
+  :line: 241
   :message: ''
   :unity_test_time: 0
 - :test: test_WriteWhenEepromIsAlmostFull
-  :line: 313
+  :line: 273
   :message: ''
   :unity_test_time: 0
-- :test: test_flush
-  :line: 387
+- :test: test_WriteWhenEepromIsFull
+  :line: 298
+  :message: ''
+  :unity_test_time: 0
+- :test: test_flushAfterRead
+  :line: 326
+  :message: ''
+  :unity_test_time: 0
+- :test: test_flushFuncionalityInWrite
+  :line: 352
+  :message: ''
+  :unity_test_time: 0
+- :test: test_flushAfterWrite
+  :line: 379
+  :message: ''
+  :unity_test_time: 0
+- :test: test_flushAfterInit
+  :line: 398
   :message: ''
   :unity_test_time: 0
 :failures: []
 :ignores: []
 :counts:
-  :total: 7
-  :passed: 7
+  :total: 12
+  :passed: 12
   :failed: 0
   :ignored: 0
 :stdout: []
-:time: 0.03422659996431321
+:time: 0.0529866999713704

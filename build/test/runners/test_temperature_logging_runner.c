@@ -16,9 +16,14 @@ extern void test_initWhenEepromIsEmpty(void);
 extern void test_InitWhenEepromIsPreviouslyInitiated(void);
 extern void test_write(void);
 extern void test_read(void);
-extern void test_readAlmostEmptyEeprom();
+extern void test_readEmptyEeprom(void);
+extern void test_readAlmostEmptyEeprom(void);
 extern void test_WriteWhenEepromIsAlmostFull(void);
-extern void test_flush(void);
+extern void test_WriteWhenEepromIsFull(void);
+extern void test_flushAfterRead(void);
+extern void test_flushFuncionalityInWrite(void);
+extern void test_flushAfterWrite(void);
+extern void test_flushAfterInit(void);
 
 
 /*=======Mock Management=====*/
@@ -90,9 +95,14 @@ int main(void)
   run_test(test_InitWhenEepromIsPreviouslyInitiated, "test_InitWhenEepromIsPreviouslyInitiated", 136);
   run_test(test_write, "test_write", 157);
   run_test(test_read, "test_read", 184);
-  run_test(test_readAlmostEmptyEeprom, "test_readAlmostEmptyEeprom", 226);
-  run_test(test_WriteWhenEepromIsAlmostFull, "test_WriteWhenEepromIsAlmostFull", 313);
-  run_test(test_flush, "test_flush", 387);
+  run_test(test_readEmptyEeprom, "test_readEmptyEeprom", 220);
+  run_test(test_readAlmostEmptyEeprom, "test_readAlmostEmptyEeprom", 241);
+  run_test(test_WriteWhenEepromIsAlmostFull, "test_WriteWhenEepromIsAlmostFull", 273);
+  run_test(test_WriteWhenEepromIsFull, "test_WriteWhenEepromIsFull", 298);
+  run_test(test_flushAfterRead, "test_flushAfterRead", 326);
+  run_test(test_flushFuncionalityInWrite, "test_flushFuncionalityInWrite", 352);
+  run_test(test_flushAfterWrite, "test_flushAfterWrite", 379);
+  run_test(test_flushAfterInit, "test_flushAfterInit", 398);
 
   CMock_Guts_MemFreeFinal();
   return UnityEnd();

@@ -11,7 +11,7 @@
 
 
 /**
-* Function for writing data to EEPROM
+* @brief Function for writing data to EEPROM
 *
 * Writing data with specific length to adress in memory.
 *
@@ -24,7 +24,7 @@
 int eeprom_write(uint16_t address, const uint8_t *data, uint16_t length);
 
 /**
-* Function for reading data from EEPROM
+* @brief Function for reading data from EEPROM
 *
 * Writing data with specific length to adress in memory.
 *
